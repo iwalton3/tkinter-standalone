@@ -1,8 +1,9 @@
 from distutils.core import setup, Extension
 
 module1 = Extension('_tkinter',
-                    sources = ['_tkinter.c'],
-                    include_dirs = ['/app/include/'])
+                    libraries=['tcl8.6', 'tk8.6'],
+                    sources=['_tkinter.c'],
+                    include_dirs=['/app/include/'])
 
 setup(
     name='tkinter-standalone',
