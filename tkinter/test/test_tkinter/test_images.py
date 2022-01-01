@@ -1,7 +1,7 @@
 import unittest
 import tkinter
 from test import support
-from tkinter.test.support import AbstractTkTest, requires_tcl
+from tkinter.test.support import AbstractTkTest, AbstractDefaultRootTest, requires_tcl
 
 support.requires('gui')
 
@@ -17,6 +17,47 @@ class MiscTest(AbstractTkTest, unittest.TestCase):
     def test_image_names(self):
         image_names = self.root.image_names()
         self.assertIsInstance(image_names, tuple)
+
+
+class DefaultRootTest(AbstractDefaultRootTest, unittest.TestCase):
+
+    def test_image_types(self):
+        self.assertRaises(RuntimeError, tkinter.image_types)
+        root = tkinter.Tk()
+        image_types = tkinter.image_types()
+        self.assertIsInstance(image_types, tuple)
+        self.assertIn('photo', image_types)
+        self.assertIn('bitmap', image_types)
+        root.destroy()
+        tkinter.NoDefaultRoot()
+        self.assertRaises(RuntimeError, tkinter.image_types)
+
+    def test_image_names(self):
+        self.assertRaises(RuntimeError, tkinter.image_names)
+        root = tkinter.Tk()
+        image_names = tkinter.image_names()
+        self.assertIsInstance(image_names, tuple)
+        root.destroy()
+        tkinter.NoDefaultRoot()
+        self.assertRaises(RuntimeError, tkinter.image_names)
+
+    def test_image_create_bitmap(self):
+        self.assertRaises(RuntimeError, tkinter.BitmapImage)
+        root = tkinter.Tk()
+        image = tkinter.BitmapImage()
+        self.assertIn(image.name, tkinter.image_names())
+        root.destroy()
+        tkinter.NoDefaultRoot()
+        self.assertRaises(RuntimeError, tkinter.BitmapImage)
+
+    def test_image_create_photo(self):
+        self.assertRaises(RuntimeError, tkinter.PhotoImage)
+        root = tkinter.Tk()
+        image = tkinter.PhotoImage()
+        self.assertIn(image.name, tkinter.image_names())
+        root.destroy()
+        tkinter.NoDefaultRoot()
+        self.assertRaises(RuntimeError, tkinter.PhotoImage)
 
 
 class BitmapImageTest(AbstractTkTest, unittest.TestCase):
@@ -36,6 +77,7 @@ class BitmapImageTest(AbstractTkTest, unittest.TestCase):
         self.assertEqual(image.height(), 16)
         self.assertIn('::img::test', self.root.image_names())
         del image
+        support.gc_collect()  # For PyPy or other GCs.
         self.assertNotIn('::img::test', self.root.image_names())
 
     def test_create_from_data(self):
@@ -50,6 +92,7 @@ class BitmapImageTest(AbstractTkTest, unittest.TestCase):
         self.assertEqual(image.height(), 16)
         self.assertIn('::img::test', self.root.image_names())
         del image
+        support.gc_collect()  # For PyPy or other GCs.
         self.assertNotIn('::img::test', self.root.image_names())
 
     def assertEqualStrList(self, actual, expected):
@@ -130,6 +173,7 @@ class PhotoImageTest(AbstractTkTest, unittest.TestCase):
         self.assertEqual(image['file'], testfile)
         self.assertIn('::img::test', self.root.image_names())
         del image
+        support.gc_collect()  # For PyPy or other GCs.
         self.assertNotIn('::img::test', self.root.image_names())
 
     def check_create_from_data(self, ext):
@@ -147,6 +191,7 @@ class PhotoImageTest(AbstractTkTest, unittest.TestCase):
         self.assertEqual(image['file'], '')
         self.assertIn('::img::test', self.root.image_names())
         del image
+        support.gc_collect()  # For PyPy or other GCs.
         self.assertNotIn('::img::test', self.root.image_names())
 
     def test_create_from_ppm_file(self):
@@ -320,8 +365,15 @@ class PhotoImageTest(AbstractTkTest, unittest.TestCase):
         self.assertEqual(image3.get(0, 0), image.get(4, 6))
         self.assertEqual(image3.get(1, 2), image.get(5, 8))
 
+    def test_transparency(self):
+        image = self.create()
+        self.assertEqual(image.transparency_get(0, 0), True)
+        self.assertEqual(image.transparency_get(4, 6), False)
+        image.transparency_set(4, 6, True)
+        self.assertEqual(image.transparency_get(4, 6), True)
+        image.transparency_set(4, 6, False)
+        self.assertEqual(image.transparency_get(4, 6), False)
 
-tests_gui = (MiscTest, BitmapImageTest, PhotoImageTest,)
 
 if __name__ == "__main__":
-    support.run_unittest(*tests_gui)
+    unittest.main()
