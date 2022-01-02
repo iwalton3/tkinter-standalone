@@ -26,31 +26,31 @@ Sources:
   ],
   "modules": [
     {
-      "name": "tcl8.6.8",
+      "name": "tcl8.6",
       "sources": [
         {
           "type": "archive",
-          "url": "http://prdownloads.sourceforge.net/tcl/tcl8.6.6-src.tar.gz",
-          "sha256": "a265409781e4b3edcc4ef822533071b34c3dc6790b893963809b9fe221befe07"
+          "url": "https://prdownloads.sourceforge.net/tcl/tcl8.6.12-src.tar.gz",
+          "sha256": "26c995dd0f167e48b11961d891ee555f680c175f7173ff8cb829f4ebcde4c1a6"
         }
       ],
       "subdir": "unix",
       "post-install": [
-        "chmod +w /app/lib/libtcl8.6.so"
+        "chmod +w ${FLATPAK_DEST}/lib/libtcl8.6.so"
       ]
     },
     {
-      "name": "tk8.6.6",
+      "name": "tk8.6",
       "sources": [
         {
           "type": "archive",
-          "url": "http://prdownloads.sourceforge.net/tcl/tk8.6.6-src.tar.gz",
-          "sha256": "d62c371a71b4744ed830e3c21d27968c31dba74dd2c45f36b9b071e6d88eb19d"
+          "url": "https://prdownloads.sourceforge.net/tcl/tcl8.6.12-src.tar.gz",
+          "sha256": "26c995dd0f167e48b11961d891ee555f680c175f7173ff8cb829f4ebcde4c1a6"
         }
       ],
       "subdir": "unix",
       "post-install": [
-        "chmod +w /app/lib/libtk8.6.so"
+        "chmod +w ${FLATPAK_DEST}/lib/libtk8.6.so"
       ]
     }
   ]
