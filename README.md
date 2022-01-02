@@ -21,7 +21,7 @@ Sources:
     {
       "type": "git",
       "url": "https://github.com/iwalton3/tkinter-standalone",
-      "commit": "2301112d142ebaf7532b25600c77d1a2edc9ef04"
+      "commit": "d9cb97c5bd4f814c73678366e0e48220776b6ad3"
     }
   ],
   "modules": [
