@@ -44,8 +44,8 @@ Sources:
       "sources": [
         {
           "type": "archive",
-          "url": "https://prdownloads.sourceforge.net/tcl/tcl8.6.12-src.tar.gz",
-          "sha256": "26c995dd0f167e48b11961d891ee555f680c175f7173ff8cb829f4ebcde4c1a6"
+          "url": "https://prdownloads.sourceforge.net/tcl/tk8.6.12-src.tar.gz",
+          "sha256": "12395c1f3fcb6bed2938689f797ea3cdf41ed5cb6c4766eec8ac949560310630"
         }
       ],
       "subdir": "unix",
