@@ -7,7 +7,7 @@ module1 = Extension('_tkinter',
 
 setup(
     name='tkinter-standalone',
-    version='3.9',
+    version='3.11',
     description='Tkinter packaged as an external package for flatpak.',
     ext_modules=[module1],
     packages=["tkinter"]
