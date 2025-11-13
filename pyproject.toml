@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tkinter-standalone"
+version = "3.13"
+description = "Tkinter packaged as an external package for flatpak."
+readme = "README.md"
+requires-python = ">=3.13"
+license = {file = "LICENSE"}
+
+[tool.setuptools]
+packages = ["tkinter"]
+ext-modules = [
+  {name = "_tkinter", sources = ["_tkinter.c"], libraries = ["tcl9.0", "tcl9tk9.0"], include-dirs = ["/app/include/", "/usr/include/python3.13/internal/"]}
+]
